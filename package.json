@@ -1,0 +1,27 @@
+{
+  "name": "workspace-minimalista",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.344.0",
+    "recharts": "^2.12.7",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "@supabase/supabase-js": "^2.39.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.0",
+    "typescript": "^5.4.0",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@types/node": "^20.11.24"
+  }
+}

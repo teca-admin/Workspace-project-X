@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workspace Projetos</title>
+    <!-- Favicon SVG Minimalista (Hexágono) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2318181b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'%3E%3C/path%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* Light Mode Palette */
+        --bg-main: #ffffff;       
+        --bg-surface: #f4f4f5;    
+        --border-color: #e4e4e7;  
+        --accent: #18181b;        
+        --accent-hover: #f4f4f5;  
+        --text-main: #09090b;     
+        --text-muted: #71717a;    
+        --scrollbar-track: #ffffff;
+        --scrollbar-thumb: #e4e4e7;
+      }
+
+      /* Dark Mode Override */
+      .dark {
+        --bg-main: #09090b;       
+        --bg-surface: #121214;    
+        --border-color: #1a1a1e;  
+        --accent: #27272a;        
+        --accent-hover: rgba(255, 255, 255, 0.01);
+        --text-main: #fafafa;     
+        --text-muted: #a1a1aa;    
+        --scrollbar-track: #09090b;
+        --scrollbar-thumb: #27272a;
+      }
+
+      html {
+        font-size: 75%; 
+      }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Global Focus Reset */
+      *, *:focus, *:active {
+        outline: none !important;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: none !important; 
+      }
+
+      /* Minimalist Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb); 
+        border-radius: 2px;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              workspace: {
+                main: 'var(--bg-main)',
+                surface: 'var(--bg-surface)',
+                border: 'var(--border-color)',
+                accent: 'var(--accent)',
+                'accent-hover': 'var(--accent-hover)',
+                text: 'var(--text-main)',
+                muted: 'var(--text-muted)'
+              }
+            },
+            animation: {
+              'fade-in-quick': 'fadeInQuick 0.15s ease-out forwards',
+            },
+            keyframes: {
+              fadeInQuick: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "recharts": "https://esm.sh/recharts@^3.5.1?bundle",
+    "vite": "https://esm.sh/vite@^7.2.7",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.87.3"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root" class="h-full w-full"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
