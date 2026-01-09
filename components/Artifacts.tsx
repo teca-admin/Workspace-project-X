@@ -1,3 +1,4 @@
+
 // Prompt: Implementação e Manutenção de CRUD com Optimistic UI + Supabase
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
@@ -126,7 +127,7 @@ const Artifacts: React.FC = () => {
     setIsLoading(true);
     try {
       const { data: colData } = await supabase.from('colecoes').select('*').order('nome');
-      const { data: artData } = await supabase.from('artefatos').select('*'); // Select * para pegar colunas novas se existirem
+      const { data: artData } = await supabase.from('artefatos').select('*'); 
       if (colData) setCollections(colData.map(toFrontendCol));
       if (artData) setArtifacts(artData.map(toFrontendArt));
     } finally {
@@ -144,6 +145,41 @@ const Artifacts: React.FC = () => {
   ), [artifacts, selectedCollectionId, searchQuery]);
 
   const getColIcon = (name: string) => COLLECTION_ICONS[name] || Folder;
+
+  // --- Lógica de Download ---
+  const handleDownload = (art: Artifact) => {
+    if (!art.content) return;
+    
+    // Criar um blob com o conteúdo do artefato
+    // Em uma aplicação real, se for binário, precisaríamos de outro tratamento
+    const blob = new Blob([art.content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    
+    // Tenta definir a extensão correta baseada no tipo
+    let extension = '.txt';
+    switch (art.type) {
+        case 'pdf': extension = '.pdf'; break;
+        case 'excel': extension = '.xlsx'; break;
+        case 'word': extension = '.docx'; break;
+        case 'powerpoint': extension = '.pptx'; break;
+        case 'code': extension = '.js'; break;
+    }
+    
+    const fileName = art.title.toLowerCase().endsWith(extension) 
+        ? art.title 
+        : `${art.title}${extension}`;
+        
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Limpeza
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   // --- Lógica de Arquivos ---
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,7 +229,6 @@ const Artifacts: React.FC = () => {
       setIsCollectionModalOpen(false);
       await fetchData();
     } catch (err: any) {
-      // Fallback silencioso se possível, caso contrário loga erro
       if (err?.code === '42703' || err?.code === 'PGRST204') {
           const basic = { nome: colForm.name, icone: colForm.icon };
           const { error: err2 } = editingCollectionId 
@@ -300,7 +335,6 @@ const Artifacts: React.FC = () => {
       setIsArtifactModalOpen(false);
       fetchData();
     } catch (err: any) {
-        // Tratamento de erro robusto com Fallback para Schema antigo
         if (err?.code === '42703' || err?.code === 'PGRST204') {
              const basic = { 
                 colecao_id: selectedCollectionId, 
@@ -331,7 +365,6 @@ const Artifacts: React.FC = () => {
     }
   };
 
-  // Helper para verificar se é um arquivo (para renderizar o card)
   const isFileArtifact = (type: string) => {
       return ['pdf', 'word', 'excel', 'powerpoint', 'file', 'ppt'].includes(type);
   };
@@ -391,7 +424,6 @@ const Artifacts: React.FC = () => {
           </div>
           {filteredArtifacts.map(art => {
             const ArtIcon = COLLECTION_ICONS[art.icon || 'filetext'] || File;
-            // Define a cor do ícone com base na coleção ativa (prioridade)
             const iconColor = activeCollection?.color;
             
             return (
@@ -425,10 +457,8 @@ const Artifacts: React.FC = () => {
                  <button onClick={(e) => requestDelete(e, 'artifact', activeArtifact.id, activeArtifact.title)} className="p-1.5 hover:bg-workspace-surface hover:text-red-500 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
                </div>
             </div>
-            {/* Área de conteúdo e descrição */}
             <div className="flex-1 overflow-y-auto custom-scrollbar p-8">
                 
-                {/* 1. Card de Arquivo (Se for arquivo) */}
                 {isFileArtifact(activeArtifact.type) && (
                     <div className="mb-6 p-5 bg-workspace-surface border border-workspace-border rounded-xl flex items-center justify-between group shadow-sm hover:shadow-md transition-all">
                        <div className="flex items-center gap-5">
@@ -446,14 +476,16 @@ const Artifacts: React.FC = () => {
                              </div>
                           </div>
                        </div>
-                       <button className="flex items-center gap-2 px-4 py-2 bg-workspace-main border border-workspace-border rounded-lg text-xs font-bold text-workspace-text hover:bg-workspace-accent hover:text-white hover:border-workspace-accent transition-all shadow-sm">
+                       <button 
+                         onClick={() => handleDownload(activeArtifact)}
+                         className="flex items-center gap-2 px-4 py-2 bg-workspace-main border border-workspace-border rounded-lg text-xs font-bold text-workspace-text hover:bg-workspace-accent hover:text-white hover:border-workspace-accent transition-all shadow-sm"
+                       >
                           <Download className="w-4 h-4" />
                           <span>BAIXAR</span>
                        </button>
                     </div>
                 )}
 
-                {/* 2. Notas / Descrição */}
                 {activeArtifact.description && (
                     <div className="mb-6 p-4 bg-workspace-surface border border-workspace-border rounded-lg">
                         <h3 className="text-[10px] font-bold uppercase text-workspace-muted mb-2 tracking-wider">Notas</h3>
@@ -461,7 +493,6 @@ const Artifacts: React.FC = () => {
                     </div>
                 )}
                 
-                {/* 3. Conteúdo (Texto puro) - Oculta se for arquivo e o texto for apenas o placeholder padrão */}
                 {(!isFileArtifact(activeArtifact.type) || !activeArtifact.content.includes('Arquivo anexado:')) && (
                      <div className="whitespace-pre-wrap text-xs font-light leading-relaxed text-workspace-text">{activeArtifact.content}</div>
                 )}
@@ -472,6 +503,9 @@ const Artifacts: React.FC = () => {
         )}
       </div>
 
+      {/* Modais omitidos por brevidade, permanecem iguais */}
+      {/* ... (Modal Confirmação, Modal Coleção, Modal Artefato) ... */}
+      
       {/* Modal Confirmação de Exclusão */}
       {itemToDelete && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in-quick">
@@ -536,7 +570,6 @@ const Artifacts: React.FC = () => {
               
               <input type="text" value={artifactForm.title} onChange={(e) => setArtifactForm({...artifactForm, title: e.target.value})} className="w-full bg-workspace-main border border-workspace-border rounded-lg px-4 py-3 text-sm focus:outline-none" placeholder="Título" />
               
-              {/* Seção de Arquivos */}
               <div className="bg-workspace-surface/50 p-4 rounded-xl border border-workspace-border/50">
                  <div className="flex items-center justify-between mb-3">
                     <span className="text-[10px] uppercase font-bold text-workspace-muted tracking-wider">Anexar Arquivo (Auto-detectar)</span>
@@ -567,7 +600,6 @@ const Artifacts: React.FC = () => {
                  )}
               </div>
 
-              {/* Seção de Notas */}
               <div className="space-y-2">
                  <span className="text-[10px] uppercase font-bold text-workspace-muted tracking-wider">Notas / Observações</span>
                  <textarea value={artifactForm.description} onChange={(e) => setArtifactForm({...artifactForm, description: e.target.value})} className="w-full bg-workspace-main border border-workspace-border rounded-lg px-4 py-3 text-xs min-h-[80px] resize-none focus:outline-none" placeholder="Adicione notas rápidas ou observações sobre este artefato..." />
