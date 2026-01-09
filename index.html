@@ -15,19 +15,17 @@
         --bg-surface: #ffffff;    
         --border-color: #f0f0f0;  
         --accent: #059669;        
-        --accent-glow: rgba(5, 150, 105, 0.02);
         --text-main: #1a1a1a;     
         --text-muted: #737373;    
       }
 
       .dark {
-        --bg-main: #050505;       
-        --bg-surface: #0a0a0a;    
-        --border-color: #141414;  
+        --bg-main: #020202;       
+        --bg-surface: #070707;    
+        --border-color: #121212;  
         --accent: #10b981;        
-        --accent-glow: rgba(16, 185, 129, 0.03);
-        --text-main: #f5f5f5;     
-        --text-muted: #525252;    
+        --text-main: #f0f0f0;     
+        --text-muted: #4a4a4a;    
       }
 
       html { font-size: 75%; }
@@ -38,52 +36,46 @@
         padding: 0;
         font-family: 'Inter', sans-serif;
         background-color: var(--bg-main);
-        /* Grid técnico de fundo */
         background-image: 
-          radial-gradient(circle at 2px 2px, var(--border-color) 1px, transparent 0);
-        background-size: 40px 40px;
+          radial-gradient(circle at 1px 1px, var(--border-color) 1px, transparent 0);
+        background-size: 32px 32px;
         color: var(--text-main);
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
+        /* Remove o destaque azul/branco de toque no mobile/Chrome */
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Reset de foco global para evitar bordas brancas indesejadas */
+      *:focus {
+        outline: none !important;
+        box-shadow: none !important;
       }
 
       .font-mono { font-family: 'JetBrains Mono', monospace; }
 
       .glow-item {
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
         border: 1px solid var(--border-color);
         background-color: var(--bg-surface);
-        backdrop-filter: blur(8px);
       }
 
       .glow-item:hover {
-        background-color: var(--accent-glow) !important;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
+        border-color: rgba(255,255,255,0.1);
+        transform: translateY(-1px);
+        background-color: rgba(255,255,255,0.01);
       }
 
-      .glow-button-solid {
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        background-color: var(--accent);
-        color: #000;
-        font-weight: 800;
-      }
-
-      .glow-button-solid:hover {
-        filter: brightness(1.2);
-        transform: scale(1.02);
-      }
-
-      /* Custom scrollbar ultra-fina */
-      ::-webkit-scrollbar { width: 2px; height: 2px; }
+      /* Scrollbar minimal */
+      ::-webkit-scrollbar { width: 3px; height: 3px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+      ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
 
       .view-transition {
-        animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: fadeIn 0.5s ease-out;
       }
-      @keyframes slideUpFade {
-        from { opacity: 0; transform: translateY(10px); }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
         to { opacity: 1; transform: translateY(0); }
       }
     </style>

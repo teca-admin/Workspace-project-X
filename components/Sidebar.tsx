@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside 
-      className="flex flex-col h-full bg-workspace-surface/80 backdrop-blur-xl border-r border-workspace-border w-56 z-20 transition-all duration-500 ease-in-out"
+      className="flex flex-col h-full bg-workspace-surface/80 backdrop-blur-xl border-r border-workspace-border w-56 z-20 transition-all duration-500 ease-in-out select-none"
     >
       <div className="flex items-center justify-between px-6 h-14 shrink-0 border-b border-workspace-border">
         <div className="flex items-center gap-3">
@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
         <button 
           onClick={toggleSidebar}
-          className="p-1.5 text-workspace-muted hover:text-workspace-text transition-all"
+          className="p-1.5 text-workspace-muted hover:text-workspace-text transition-colors outline-none border-none focus:ring-0"
         >
           <PanelLeftClose size={14} strokeWidth={2} />
         </button>
@@ -67,10 +67,11 @@ const Sidebar: React.FC<SidebarProps> = ({
               key={item.id}
               onClick={() => setCurrentView(item.id)}
               className={`
-                flex items-center w-full px-6 py-3.5 transition-all duration-300 group relative focus:outline-none border-l-[3px]
+                flex items-center w-full px-6 py-3.5 group relative outline-none border-none focus:ring-0 border-l-[3px] select-none
+                transition-[background-color,color,border-color] duration-300
                 ${isActive 
-                  ? 'bg-workspace-accent/5 border-workspace-accent text-workspace-text shadow-[inset_10px_0_20px_-10px_rgba(16,185,129,0.1)]' 
-                  : 'text-workspace-muted hover:text-workspace-text border-transparent hover:bg-workspace-main/30'
+                  ? 'bg-workspace-accent/5 border-l-workspace-accent text-workspace-text shadow-[inset_10px_0_20px_-10px_rgba(16,185,129,0.1)]' 
+                  : 'text-workspace-muted hover:text-workspace-text border-l-transparent hover:bg-workspace-main/30'
                 }
               `}
             >
@@ -94,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-4 border-t border-workspace-border flex flex-col gap-2 bg-workspace-main/5">
         <button
           onClick={toggleTheme}
-          className="flex items-center w-full px-5 py-3 text-workspace-muted hover:text-workspace-text transition-all border-l-[3px] border-transparent hover:border-workspace-muted/20 focus:outline-none rounded-sm"
+          className="flex items-center w-full px-5 py-3 text-workspace-muted hover:text-workspace-text transition-colors border-l-[3px] border-transparent hover:border-workspace-muted/20 outline-none border-none focus:ring-0 rounded-sm select-none"
         >
           {isDarkMode ? (
             <Sun className="w-3.5 h-3.5 stroke-[2]" />
