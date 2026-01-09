@@ -103,7 +103,7 @@ const Tools: React.FC = () => {
         <div className="h-12 border-b border-workspace-border flex items-center justify-between px-6 bg-black shrink-0 z-20">
           <button onClick={() => setActiveTool(null)} className="p-1 hover:text-workspace-accent transition-colors"><ArrowLeft size={16} /></button>
           <h2 className="text-[10px] font-black uppercase tracking-widest text-white">{activeTool.title}</h2>
-          <a href={activeTool.url} target="_blank" rel="noreferrer" className="glow-button text-[9px] font-black px-3 py-1 border border-workspace-border rounded-sm uppercase transition-all">Link Externo</a>
+          <a href={activeTool.url} target="_blank" rel="noreferrer" className="px-4 py-1.5 border border-workspace-border hover:border-workspace-accent rounded-sm text-[9px] font-black uppercase transition-all">Link Externo</a>
         </div>
         <iframe src={activeTool.url} className="w-full h-full border-none bg-white" title={activeTool.title} />
       </div>
@@ -118,7 +118,7 @@ const Tools: React.FC = () => {
           <p className="text-[9px] text-workspace-muted font-bold uppercase tracking-[0.1em] mt-1 opacity-40">Utilitários e integrações homologadas</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => handleOpenModal(undefined, true)} className="glow-button px-4 py-2 border border-workspace-border rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><FolderPlus size={14} className="inline mr-2" /> PASTA</button>
+          <button onClick={() => handleOpenModal(undefined, true)} className="px-4 py-2 border border-workspace-border hover:border-workspace-accent rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><FolderPlus size={14} className="inline mr-2" /> PASTA</button>
           <button onClick={() => handleOpenModal(undefined, false)} className="glow-button-solid px-4 py-2 bg-workspace-accent text-black rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><Plus size={14} className="inline mr-2" /> RECURSO</button>
         </div>
       </div>
@@ -129,7 +129,11 @@ const Tools: React.FC = () => {
             <div 
               key={tool.id} 
               onClick={() => tool.isFolder ? setCurrentFolderId(tool.id) : setActiveTool(tool)} 
-              className="glow-item group relative bg-workspace-surface p-6 rounded-sm cursor-pointer border-l-2 border-l-workspace-accent/30 hover:border-l-workspace-accent transition-all"
+              className={`
+                glow-item group relative bg-workspace-surface p-6 rounded-sm cursor-pointer transition-all border-l-4
+                ${tool.isFolder ? 'border-l-workspace-accent/20' : 'border-l-transparent'}
+                hover:border-l-workspace-accent
+              `}
             >
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 border border-workspace-border bg-black flex items-center justify-center shrink-0 group-hover:border-workspace-accent transition-colors">

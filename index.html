@@ -15,7 +15,7 @@
         --bg-surface: #ffffff;    
         --border-color: #e2e8f0;  
         --accent: #059669;        
-        --accent-glow: rgba(5, 150, 105, 0.03); /* Reduzido de 0.08 para 0.03 */
+        --accent-glow: rgba(5, 150, 105, 0.03);
         --text-main: #0f172a;     
         --text-muted: #64748b;    
       }
@@ -25,7 +25,7 @@
         --bg-surface: #0a0a0a;    
         --border-color: #1a1a1a;  
         --accent: #10b981;        
-        --accent-glow: rgba(16, 185, 129, 0.04); /* Reduzido de 0.08 para 0.04 */
+        --accent-glow: rgba(16, 185, 129, 0.04);
         --text-main: #ffffff;     
         --text-muted: #888888;    
       }
@@ -44,21 +44,17 @@
         transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Efeito Technical Clean - Menos "Carnaval", Mais "Enterprise" */
-      .glow-item, .glow-button {
+      /* Efeito Technical Clean - Foco em barra lateral, não contorno completo */
+      .glow-item {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid var(--border-color);
-        position: relative;
         background-color: var(--bg-surface);
-        color: var(--text-main);
       }
 
-      /* Hover mais sóbrio: remove box-shadow colorido, foca em borda e elevação leve */
-      .glow-item:hover, .glow-button:hover {
-        border-color: var(--accent) !important;
+      .glow-item:hover {
         background-color: var(--accent-glow) !important;
         transform: translateY(-1px);
-        box-shadow: 0 4px 20px -10px rgba(0,0,0,0.5); /* Sombra de profundidade, não de cor */
+        box-shadow: 0 4px 20px -10px rgba(0,0,0,0.5);
       }
 
       .glow-button-solid {
@@ -74,7 +70,6 @@
         box-shadow: 0 4px 15px -5px var(--accent);
       }
 
-      /* Estilo Global para Inputs e Selects */
       input, select, textarea {
         background-color: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
@@ -84,21 +79,12 @@
       }
       input:focus, select:focus, textarea:focus {
         border-color: var(--accent) !important;
-        box-shadow: none !important; /* Remove brilho nos inputs */
         outline: none !important;
       }
 
       ::-webkit-scrollbar { width: 3px; height: 3px; }
       ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: var(--border-color); }
-      
-      .view-transition {
-        animation: fadeInQuick 0.2s ease-out;
-      }
-      @keyframes fadeInQuick {
-        from { opacity: 0; transform: translateY(4px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
     </style>
     <script>
       tailwind.config = {
@@ -119,20 +105,20 @@
         }
       }
     </script>
-    <script type="importmap">
-    {
-      "imports": {
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3",
-        "vite": "https://esm.sh/vite@^7.3.1",
-        "recharts": "https://esm.sh/recharts@^3.6.0",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-        "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.90.1"
-      }
-    }
-    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.90.1"
+  }
+}
+</script>
 </head>
   <body>
     <div id="root" class="h-full w-full"></div>

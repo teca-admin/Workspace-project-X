@@ -27,7 +27,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 1: Ferramentas */}
         <button 
           onClick={() => setCurrentView(View.TOOLS)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left border-l-4 border-l-transparent hover:border-l-workspace-accent transition-all"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <Wrench className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
@@ -44,7 +44,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 2: Demandas */}
         <button 
           onClick={() => setCurrentView(View.DEMANDS)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left border-l-4 border-l-transparent hover:border-l-workspace-accent transition-all"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <CheckSquare className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
@@ -61,7 +61,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 3: Notas */}
         <button 
           onClick={() => setCurrentView(View.NOTES)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left border-l-4 border-l-transparent hover:border-l-workspace-accent transition-all"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <StickyNote className="w-5 h-5 text-workspace-accent stroke-[1.5]" />

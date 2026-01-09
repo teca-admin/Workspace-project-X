@@ -46,7 +46,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     <aside 
       className="flex flex-col h-full bg-workspace-surface border-r border-workspace-border w-64 z-20 transition-all duration-300 animate-fade-in-quick"
     >
-      {/* Header / Logo Area */}
       <div className="flex items-center justify-between px-6 h-14 shrink-0 border-b border-workspace-border">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center justify-center w-6 h-6 bg-workspace-accent text-white rounded-sm">
@@ -62,8 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto custom-scrollbar">
+      <nav className="flex-1 px-0 py-6 space-y-1 overflow-y-auto custom-scrollbar">
         {navItems.map((item) => {
           const isActive = currentView === item.id;
           return (
@@ -71,10 +69,10 @@ const Sidebar: React.FC<SidebarProps> = ({
               key={item.id}
               onClick={() => setCurrentView(item.id)}
               className={`
-                flex items-center w-full px-4 py-2.5 rounded-sm transition-all duration-150 group relative focus:outline-none glow-button
+                flex items-center w-full px-6 py-3 transition-all duration-150 group relative focus:outline-none border-l-4
                 ${isActive 
-                  ? 'bg-workspace-accent/10 border-l-2 border-workspace-accent text-workspace-accent' 
-                  : 'text-workspace-muted hover:text-workspace-text border-l-2 border-transparent'
+                  ? 'bg-workspace-accent/5 border-workspace-accent text-workspace-accent' 
+                  : 'text-workspace-muted hover:text-workspace-text border-transparent hover:bg-workspace-main/50'
                 }
               `}
             >
@@ -92,11 +90,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         })}
       </nav>
 
-      {/* Footer Actions */}
       <div className="p-3 border-t border-workspace-border flex flex-col gap-1 bg-workspace-main/10">
         <button
           onClick={toggleTheme}
-          className="flex items-center w-full px-4 py-2 rounded-sm text-workspace-muted hover:text-workspace-text transition-colors focus:outline-none glow-button"
+          className="flex items-center w-full px-5 py-2.5 text-workspace-muted hover:text-workspace-text transition-all border-l-4 border-transparent hover:border-workspace-muted/30 focus:outline-none"
         >
           {isDarkMode ? (
             <Sun className="w-3.5 h-3.5 stroke-[2]" />
