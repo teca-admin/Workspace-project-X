@@ -45,7 +45,6 @@ const Notes: React.FC = () => {
       const { data, error } = await supabase.from('notas').select('*');
       if (error) throw error;
       if (data) {
-        // Inicialmente ordena por data, mas permite reordenação manual local
         setNotes(data.map(toFrontend).sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()));
       }
     } catch (e) {
@@ -102,7 +101,6 @@ const Notes: React.FC = () => {
     if (contentEditableRef.current) updateActiveNote({ content: contentEditableRef.current.innerHTML });
   };
 
-  // --- Lógica de Drag and Drop ---
   const handleDragStart = (index: number) => {
     setDraggedItemIndex(index);
   };
@@ -128,7 +126,6 @@ const Notes: React.FC = () => {
 
   return (
     <div className="flex h-full w-full bg-workspace-main animate-fade-in overflow-hidden">
-      {/* Sidebar de Notas */}
       <div className="w-80 border-r border-workspace-border flex flex-col bg-workspace-surface shrink-0">
         <div className="p-4 border-b border-workspace-border space-y-4">
           <div className="flex items-center justify-between">
@@ -141,7 +138,7 @@ const Notes: React.FC = () => {
             <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-workspace-muted" />
             <input 
               type="text" 
-              placeholder="Localizar..." 
+              placeholder="LOCALIZAR..." 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
               className="w-full pl-10 pr-4 py-2 text-[10px] uppercase font-bold text-workspace-text placeholder-workspace-muted/30 outline-none" 
@@ -164,7 +161,6 @@ const Notes: React.FC = () => {
                 ${draggedItemIndex === index ? 'opacity-30' : 'opacity-100'}
               `}
             >
-              {/* Alça de arraste */}
               <div className="cursor-grab active:cursor-grabbing text-workspace-muted opacity-0 group-hover:opacity-100 transition-opacity p-1 -ml-2">
                 <GripVertical size={14} />
               </div>
@@ -174,8 +170,8 @@ const Notes: React.FC = () => {
                   {note.title || 'Sem Título'}
                 </h3>
                 <div 
-                  className="text-[9px] text-workspace-muted font-medium line-clamp-1 opacity-50 uppercase tracking-tighter" 
-                  dangerouslySetInnerHTML={{ __html: (note.content || '').replace(/<[^>]+>/g, '') || 'Entrada vazia' }} 
+                  className="text-[9px] text-workspace-muted font-medium line-clamp-1 opacity-50 tracking-tighter" 
+                  dangerouslySetInnerHTML={{ __html: (note.content || '').replace(/<[^>]+>/g, '') || 'ENTRADA VAZIA' }} 
                 />
               </div>
 
@@ -190,7 +186,6 @@ const Notes: React.FC = () => {
         </div>
       </div>
 
-      {/* Editor de Notas */}
       <div className="flex-1 flex flex-col bg-workspace-main relative">
         {activeNote ? (
           <>
@@ -206,14 +201,14 @@ const Notes: React.FC = () => {
                 type="text" 
                 value={activeNote.title} 
                 onChange={(e) => updateActiveNote({ title: e.target.value })} 
-                className="w-full text-xl font-black text-workspace-text bg-transparent border-none outline-none placeholder-workspace-muted/20 uppercase tracking-[0.1em]" 
+                className="w-full text-xl font-black text-workspace-text bg-transparent border-none outline-none placeholder-workspace-muted/20 tracking-[0.05em]" 
                 placeholder="Identificação da Nota" 
               />
             </div>
             <div className="flex-1 overflow-y-auto custom-scrollbar p-10">
               <div 
                 ref={contentEditableRef} 
-                className="w-full h-full outline-none text-workspace-text text-[11px] uppercase font-medium leading-relaxed border-l border-workspace-border/50 pl-6 focus:border-workspace-accent/40 transition-all" 
+                className="w-full h-full outline-none text-workspace-text text-[11px] font-medium leading-relaxed border-l border-workspace-border/50 pl-6 focus:border-workspace-accent/40 transition-all whitespace-pre-wrap" 
                 contentEditable 
                 onInput={(e) => updateActiveNote({ content: e.currentTarget.innerHTML })} 
                 style={{ minHeight: '50vh' }} 
