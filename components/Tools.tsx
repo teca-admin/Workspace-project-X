@@ -119,7 +119,7 @@ const Tools: React.FC = () => {
         </div>
         <div className="flex gap-2">
           <button onClick={() => handleOpenModal(undefined, true)} className="glow-button px-4 py-2 border border-workspace-border rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><FolderPlus size={14} className="inline mr-2" /> PASTA</button>
-          <button onClick={() => handleOpenModal(undefined, false)} className="glow-button-solid px-4 py-2 bg-workspace-accent text-black rounded-sm text-[9px] font-black uppercase tracking-widest transition-all shadow-lg"><Plus size={14} className="inline mr-2" /> RECURSO</button>
+          <button onClick={() => handleOpenModal(undefined, false)} className="glow-button-solid px-4 py-2 bg-workspace-accent text-black rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><Plus size={14} className="inline mr-2" /> RECURSO</button>
         </div>
       </div>
       
@@ -129,7 +129,7 @@ const Tools: React.FC = () => {
             <div 
               key={tool.id} 
               onClick={() => tool.isFolder ? setCurrentFolderId(tool.id) : setActiveTool(tool)} 
-              className="glow-item group relative bg-workspace-surface p-6 rounded-sm cursor-pointer border-l-4 border-l-workspace-accent/50 transition-all"
+              className="glow-item group relative bg-workspace-surface p-6 rounded-sm cursor-pointer border-l-2 border-l-workspace-accent/30 hover:border-l-workspace-accent transition-all"
             >
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 border border-workspace-border bg-black flex items-center justify-center shrink-0 group-hover:border-workspace-accent transition-colors">
@@ -141,7 +141,7 @@ const Tools: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0 pr-12"> 
                   <h3 className="text-[11px] font-bold text-white uppercase tracking-tight mb-1 truncate">{tool.title}</h3>
-                  <p className="text-[9px] text-workspace-muted font-medium line-clamp-2 uppercase leading-relaxed opacity-60">
+                  <p className="text-[9px] text-workspace-muted font-medium line-clamp-2 uppercase leading-relaxed opacity-50">
                     {tool.isFolder ? `${tools.filter(t => t.parentId === tool.id).length} itens` : (tool.description || "Sem memorial descritivo.")}
                   </p>
                 </div>
@@ -163,17 +163,17 @@ const Tools: React.FC = () => {
             <div className="space-y-6">
               <div className="space-y-1.5">
                 <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Identificação</label>
-                <input type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full" placeholder="Ex: Monitoramento AWS" />
+                <input type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2" placeholder="Ex: Monitoramento AWS" />
               </div>
               {!formData.isFolder && (
                 <div className="space-y-1.5">
                   <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Endereço (URL)</label>
-                  <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} className="w-full" placeholder="https://..." />
+                  <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} className="w-full px-4 py-2" placeholder="https://..." />
                 </div>
               )}
               <div className="space-y-1.5">
                 <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Memorial Descritivo</label>
-                <textarea value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full min-h-[80px] resize-none" placeholder="Opcional" />
+                <textarea value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full min-h-[80px] resize-none px-4 py-2" placeholder="Opcional" />
               </div>
             </div>
             <div className="mt-10 flex justify-end gap-3">

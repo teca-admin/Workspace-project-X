@@ -11,11 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg-main: #f8fafc;       /* Slate 50 - Suave */
+        --bg-main: #f8fafc;       
         --bg-surface: #ffffff;    
         --border-color: #e2e8f0;  
-        --accent: #059669;        /* Esmeralda mais escuro para light */
-        --accent-glow: rgba(5, 150, 105, 0.08);
+        --accent: #059669;        
+        --accent-glow: rgba(5, 150, 105, 0.03); /* Reduzido de 0.08 para 0.03 */
         --text-main: #0f172a;     
         --text-muted: #64748b;    
       }
@@ -25,7 +25,7 @@
         --bg-surface: #0a0a0a;    
         --border-color: #1a1a1a;  
         --accent: #10b981;        
-        --accent-glow: rgba(16, 185, 129, 0.08);
+        --accent-glow: rgba(16, 185, 129, 0.04); /* Reduzido de 0.08 para 0.04 */
         --text-main: #ffffff;     
         --text-muted: #888888;    
       }
@@ -41,34 +41,37 @@
         color: var(--text-main);
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Efeito Technical Glow Unificado */
+      /* Efeito Technical Clean - Menos "Carnaval", Mais "Enterprise" */
       .glow-item, .glow-button {
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid var(--border-color);
         position: relative;
         background-color: var(--bg-surface);
         color: var(--text-main);
       }
 
+      /* Hover mais sóbrio: remove box-shadow colorido, foca em borda e elevação leve */
       .glow-item:hover, .glow-button:hover {
         border-color: var(--accent) !important;
         background-color: var(--accent-glow) !important;
-        box-shadow: 0 0 12px -4px var(--accent);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 20px -10px rgba(0,0,0,0.5); /* Sombra de profundidade, não de cor */
       }
 
       .glow-button-solid {
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid transparent;
         background-color: var(--accent);
-        color: #fff; /* Texto sempre branco em botão de ação */
+        color: #fff;
       }
 
       .glow-button-solid:hover {
-        box-shadow: 0 0 15px -3px var(--accent);
         filter: brightness(1.1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px -5px var(--accent);
       }
 
       /* Estilo Global para Inputs e Selects */
@@ -76,12 +79,12 @@
         background-color: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
         color: var(--text-main) !important;
-        border-radius: 4px !important;
+        border-radius: 2px !important;
         transition: all 0.2s ease !important;
       }
       input:focus, select:focus, textarea:focus {
         border-color: var(--accent) !important;
-        box-shadow: 0 0 10px -3px var(--accent) !important;
+        box-shadow: none !important; /* Remove brilho nos inputs */
         outline: none !important;
       }
 
@@ -90,11 +93,11 @@
       ::-webkit-scrollbar-thumb { background: var(--border-color); }
       
       .view-transition {
-        animation: fadeInQuick 0.15s ease-out;
+        animation: fadeInQuick 0.2s ease-out;
       }
       @keyframes fadeInQuick {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
       }
     </style>
     <script>

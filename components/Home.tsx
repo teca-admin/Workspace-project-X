@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
       
       <div className="mb-16">
         <h1 className="text-3xl font-black text-workspace-text mb-2 uppercase tracking-[0.2em]">{greeting}, Operador.</h1>
-        <p className="text-workspace-muted font-bold text-[10px] uppercase tracking-[0.1em] opacity-50">Terminal de comando centralizado</p>
+        <p className="text-workspace-muted font-bold text-[10px] uppercase tracking-[0.1em] opacity-40">Terminal de comando centralizado</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -27,7 +27,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 1: Ferramentas */}
         <button 
           onClick={() => setCurrentView(View.TOOLS)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <Wrench className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
@@ -44,7 +44,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 2: Demandas */}
         <button 
           onClick={() => setCurrentView(View.DEMANDS)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <CheckSquare className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
@@ -61,7 +61,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         {/* Card 3: Notas */}
         <button 
           onClick={() => setCurrentView(View.NOTES)}
-          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-sm text-left"
         >
           <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <StickyNote className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
@@ -76,7 +76,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
         </button>
       </div>
 
-      <div className="mt-16 border-t border-workspace-border pt-8 flex items-center justify-between text-[8px] text-workspace-muted font-black uppercase tracking-[0.3em]">
+      <div className="mt-16 border-t border-workspace-border pt-8 flex items-center justify-between text-[8px] text-workspace-muted font-black uppercase tracking-[0.3em] opacity-40">
          <span>V 1.2.0</span>
          <span>SISTEMA OPERACIONAL: ONLINE</span>
       </div>
