@@ -4,30 +4,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Workspace Projetos</title>
+    <title>Workspace Operacional</title>
     <!-- Favicon Verde Esmeralda -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'%3E%3C/path%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg-main: #f8fafc;       
+        --bg-main: #fcfcfc;       
         --bg-surface: #ffffff;    
-        --border-color: #e2e8f0;  
+        --border-color: #f0f0f0;  
         --accent: #059669;        
-        --accent-glow: rgba(5, 150, 105, 0.03);
-        --text-main: #0f172a;     
-        --text-muted: #64748b;    
+        --accent-glow: rgba(5, 150, 105, 0.02);
+        --text-main: #1a1a1a;     
+        --text-muted: #737373;    
       }
 
       .dark {
-        --bg-main: #000000;       
+        --bg-main: #050505;       
         --bg-surface: #0a0a0a;    
-        --border-color: #1a1a1a;  
+        --border-color: #141414;  
         --accent: #10b981;        
-        --accent-glow: rgba(16, 185, 129, 0.04);
-        --text-main: #ffffff;     
-        --text-muted: #888888;    
+        --accent-glow: rgba(16, 185, 129, 0.03);
+        --text-main: #f5f5f5;     
+        --text-muted: #525252;    
       }
 
       html { font-size: 75%; }
@@ -38,53 +38,54 @@
         padding: 0;
         font-family: 'Inter', sans-serif;
         background-color: var(--bg-main);
+        /* Grid técnico de fundo */
+        background-image: 
+          radial-gradient(circle at 2px 2px, var(--border-color) 1px, transparent 0);
+        background-size: 40px 40px;
         color: var(--text-main);
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
-        transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Efeito Technical Clean - Foco em barra lateral, não contorno completo */
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
       .glow-item {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         border: 1px solid var(--border-color);
         background-color: var(--bg-surface);
+        backdrop-filter: blur(8px);
       }
 
       .glow-item:hover {
         background-color: var(--accent-glow) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 20px -10px rgba(0,0,0,0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
       }
 
       .glow-button-solid {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid transparent;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         background-color: var(--accent);
-        color: #fff;
+        color: #000;
+        font-weight: 800;
       }
 
       .glow-button-solid:hover {
-        filter: brightness(1.1);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px -5px var(--accent);
+        filter: brightness(1.2);
+        transform: scale(1.02);
       }
 
-      input, select, textarea {
-        background-color: var(--bg-surface) !important;
-        border: 1px solid var(--border-color) !important;
-        color: var(--text-main) !important;
-        border-radius: 2px !important;
-        transition: all 0.2s ease !important;
-      }
-      input:focus, select:focus, textarea:focus {
-        border-color: var(--accent) !important;
-        outline: none !important;
-      }
-
-      ::-webkit-scrollbar { width: 3px; height: 3px; }
+      /* Custom scrollbar ultra-fina */
+      ::-webkit-scrollbar { width: 2px; height: 2px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: var(--border-color); }
+      ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+      .view-transition {
+        animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes slideUpFade {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
     </style>
     <script>
       tailwind.config = {

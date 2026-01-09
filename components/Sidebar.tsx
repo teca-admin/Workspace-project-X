@@ -24,12 +24,12 @@ interface SidebarProps {
 }
 
 const navItems: NavItem[] = [
-  { id: View.HOME, label: 'Início', icon: Home },
-  { id: View.WORKING_NOW, label: 'Foco Agora', icon: Zap },
-  { id: View.TOOLS, label: 'Ferramentas', icon: Wrench },
-  { id: View.NOTES, label: 'Notas', icon: StickyNote },
-  { id: View.ARTIFACTS, label: 'Artefatos', icon: Library },
-  { id: View.DEMANDS, label: 'Demandas', icon: CheckSquare },
+  { id: View.HOME, label: 'Dashboard', icon: Home },
+  { id: View.WORKING_NOW, label: 'Ciclo Ativo', icon: Zap },
+  { id: View.TOOLS, label: 'Utilidades', icon: Wrench },
+  { id: View.NOTES, label: 'Memorial', icon: StickyNote },
+  { id: View.ARTIFACTS, label: 'Biblioteca', icon: Library },
+  { id: View.DEMANDS, label: 'Operações', icon: CheckSquare },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -44,24 +44,22 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside 
-      className="flex flex-col h-full bg-workspace-surface border-r border-workspace-border w-64 z-20 transition-all duration-300 animate-fade-in-quick"
+      className="flex flex-col h-full bg-workspace-surface/80 backdrop-blur-xl border-r border-workspace-border w-56 z-20 transition-all duration-500 ease-in-out"
     >
       <div className="flex items-center justify-between px-6 h-14 shrink-0 border-b border-workspace-border">
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-6 h-6 bg-workspace-accent text-white rounded-sm">
-            <Hexagon className="w-3.5 h-3.5 stroke-[2.5]" />
-          </div>
-          <span className="font-black text-[10px] tracking-[0.2em] text-workspace-text uppercase">Terminal</span>
+        <div className="flex items-center gap-3">
+          <Hexagon className="w-4 h-4 text-workspace-accent stroke-[2.5]" />
+          <span className="font-black text-[9px] tracking-[0.4em] text-workspace-text uppercase">System_OS</span>
         </div>
         <button 
           onClick={toggleSidebar}
-          className="p-1.5 text-workspace-muted hover:text-workspace-text transition-colors"
+          className="p-1.5 text-workspace-muted hover:text-workspace-text transition-all"
         >
           <PanelLeftClose size={14} strokeWidth={2} />
         </button>
       </div>
 
-      <nav className="flex-1 px-0 py-6 space-y-1 overflow-y-auto custom-scrollbar">
+      <nav className="flex-1 px-0 py-8 space-y-1 overflow-y-auto custom-scrollbar">
         {navItems.map((item) => {
           const isActive = currentView === item.id;
           return (
@@ -69,39 +67,42 @@ const Sidebar: React.FC<SidebarProps> = ({
               key={item.id}
               onClick={() => setCurrentView(item.id)}
               className={`
-                flex items-center w-full px-6 py-3 transition-all duration-150 group relative focus:outline-none border-l-4
+                flex items-center w-full px-6 py-3.5 transition-all duration-300 group relative focus:outline-none border-l-[3px]
                 ${isActive 
-                  ? 'bg-workspace-accent/5 border-workspace-accent text-workspace-accent' 
-                  : 'text-workspace-muted hover:text-workspace-text border-transparent hover:bg-workspace-main/50'
+                  ? 'bg-workspace-accent/5 border-workspace-accent text-workspace-text shadow-[inset_10px_0_20px_-10px_rgba(16,185,129,0.1)]' 
+                  : 'text-workspace-muted hover:text-workspace-text border-transparent hover:bg-workspace-main/30'
                 }
               `}
             >
               <item.icon 
                 className={`
-                  w-3.5 h-3.5 stroke-[2] shrink-0
-                  ${isActive ? 'text-workspace-accent' : 'text-workspace-muted group-hover:text-workspace-text'}
+                  w-3.5 h-3.5 stroke-[2] shrink-0 transition-transform duration-300
+                  ${isActive ? 'text-workspace-accent scale-110' : 'text-workspace-muted group-hover:text-workspace-text'}
                 `} 
               />
-              <span className="ml-3 text-[9px] font-black uppercase tracking-[0.15em] whitespace-nowrap">
+              <span className="ml-4 text-[8px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">
                 {item.label}
               </span>
+              {isActive && (
+                <div className="ml-auto w-1 h-1 rounded-full bg-workspace-accent shadow-[0_0_8px_var(--accent)]" />
+              )}
             </button>
           );
         })}
       </nav>
 
-      <div className="p-3 border-t border-workspace-border flex flex-col gap-1 bg-workspace-main/10">
+      <div className="p-4 border-t border-workspace-border flex flex-col gap-2 bg-workspace-main/5">
         <button
           onClick={toggleTheme}
-          className="flex items-center w-full px-5 py-2.5 text-workspace-muted hover:text-workspace-text transition-all border-l-4 border-transparent hover:border-workspace-muted/30 focus:outline-none"
+          className="flex items-center w-full px-5 py-3 text-workspace-muted hover:text-workspace-text transition-all border-l-[3px] border-transparent hover:border-workspace-muted/20 focus:outline-none rounded-sm"
         >
           {isDarkMode ? (
             <Sun className="w-3.5 h-3.5 stroke-[2]" />
           ) : (
             <Moon className="w-3.5 h-3.5 stroke-[2]" />
           )}
-          <span className="ml-3 text-[9px] font-black uppercase tracking-widest">
-            {isDarkMode ? 'Luz' : 'Sombra'}
+          <span className="ml-4 text-[8px] font-bold uppercase tracking-[0.2em]">
+            Mode_{isDarkMode ? 'Light' : 'Dark'}
           </span>
         </button>
       </div>

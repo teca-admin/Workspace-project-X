@@ -1,18 +1,19 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Zap, 
   Clock, 
   CheckCircle2, 
-  Timer, 
-  AlertCircle,
+  Activity,
   Plus,
   Play,
   Square,
   MoreVertical,
   Check,
   Hash,
-  Activity
+  Database,
+  Cpu,
+  BarChart3
 } from 'lucide-react';
 
 interface ActiveTask {
@@ -33,120 +34,131 @@ const INITIAL_TASKS: ActiveTask[] = [
 const WorkingNow: React.FC = () => {
   const [tasks, setTasks] = useState<ActiveTask[]>(INITIAL_TASKS);
 
-  const getStatusStyle = (status: ActiveTask['status']) => {
+  const getStatusColor = (status: ActiveTask['status']) => {
     switch (status) {
-      case 'EM ANDAMENTO': return 'border-sky-500/30 text-sky-400';
-      case 'CONCLUÍDO': return 'border-workspace-accent/30 text-workspace-accent';
-      case 'PENDENTE': return 'border-workspace-border text-workspace-muted';
-      default: return 'border-workspace-border text-workspace-muted';
-    }
-  };
-
-  const getPriorityColor = (priority: ActiveTask['priority']) => {
-    switch (priority) {
-      case 'ALTA': return 'text-red-500/80';
-      case 'MÉDIA': return 'text-amber-500/80';
-      case 'BAIXA': return 'text-emerald-500/80';
+      case 'EM ANDAMENTO': return 'text-sky-400';
+      case 'CONCLUÍDO': return 'text-workspace-accent';
+      case 'PENDENTE': return 'text-workspace-muted';
       default: return 'text-workspace-muted';
     }
   };
 
   return (
-    <div className="p-10 max-w-7xl mx-auto h-full flex flex-col animate-fade-in space-y-12">
-      {/* Header Profissional */}
-      <div className="flex items-end justify-between border-b border-workspace-border pb-6">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-2 h-2 rounded-full bg-workspace-accent animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-            <h1 className="text-sm font-black text-workspace-text uppercase tracking-[0.3em]">Monitor de Fluxo Ativo</h1>
+    <div className="p-12 max-w-[1400px] mx-auto h-full flex flex-col view-transition">
+      
+      {/* Top Telemetry Bar */}
+      <div className="flex items-center justify-between mb-12 border-b border-workspace-border pb-8">
+        <div className="flex items-center gap-10">
+          <div>
+            <h1 className="text-2xl font-black text-workspace-text uppercase tracking-[0.4em] mb-2">Monitoramento de Ciclo</h1>
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-workspace-accent animate-ping" />
+              <span className="text-[8px] font-mono font-bold text-workspace-accent uppercase tracking-widest">Live Telemetry: Active</span>
+            </div>
           </div>
-          <p className="text-[9px] text-workspace-muted font-bold uppercase tracking-[0.1em] opacity-40">Gerenciamento de ciclos operacionais e foco</p>
+          
+          <div className="h-10 w-[1px] bg-workspace-border hidden md:block" />
+          
+          <div className="hidden md:flex gap-8">
+            <div className="flex flex-col">
+              <span className="text-[7px] font-black text-workspace-muted uppercase tracking-widest mb-1">Carga de Sistema</span>
+              <span className="text-xs font-mono font-bold text-workspace-text">8.42%</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[7px] font-black text-workspace-muted uppercase tracking-widest mb-1">Taxa de Conclusão</span>
+              <span className="text-xs font-mono font-bold text-workspace-text">92.4%</span>
+            </div>
+          </div>
         </div>
-        <button className="glow-button px-6 py-2 border border-workspace-border rounded-sm text-[9px] font-black uppercase tracking-widest flex items-center gap-2 hover:border-workspace-accent transition-all group">
-          <Plus size={12} className="group-hover:text-workspace-accent" /> NOVO FOCO
+
+        <button className="glow-button px-6 py-2.5 bg-workspace-surface border border-workspace-border rounded-sm text-[8px] font-black uppercase tracking-[0.2em] flex items-center gap-3 hover:border-workspace-accent transition-all">
+          <Plus size={12} /> Registrar Atividade
         </button>
       </div>
 
-      {/* Cards de Métricas - Mais sóbrios */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glow-item p-6 bg-workspace-surface border-l-4 border-l-sky-500/50">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.2em]">Execução</span>
-            <Activity className="text-sky-500/40" size={14} />
+      {/* Metric Grid - High Precision */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+        {[
+          { label: 'Fluxos Ativos', val: '01', icon: Cpu, color: 'sky' },
+          { label: 'Finalizados/Hoje', val: '12', icon: CheckCircle2, color: 'emerald' },
+          { label: 'Fila de Espera', val: '04', icon: Database, color: 'amber' },
+          { label: 'Eficiência Médica', val: '9.8', icon: BarChart3, color: 'workspace' }
+        ].map((item, i) => (
+          <div key={i} className="glow-item p-6 flex flex-col justify-between h-32 relative overflow-hidden">
+             <div className="flex justify-between items-start z-10">
+                <span className="text-[7px] font-black text-workspace-muted uppercase tracking-[0.2em]">{item.label}</span>
+                <item.icon size={14} className="opacity-20" />
+             </div>
+             <p className="text-4xl font-mono font-black text-workspace-text z-10">{item.val}</p>
+             {/* Decoração técnica de fundo */}
+             <div className="absolute -bottom-2 -right-2 opacity-5">
+               <item.icon size={80} strokeWidth={1} />
+             </div>
           </div>
-          <p className="text-2xl font-black text-workspace-text tabular-nums tracking-tighter">0{tasks.filter(t => t.status === 'EM ANDAMENTO').length}</p>
-        </div>
-        
-        <div className="glow-item p-6 bg-workspace-surface border-l-4 border-l-workspace-accent/50">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.2em]">Entrega</span>
-            <CheckCircle2 className="text-workspace-accent/40" size={14} />
-          </div>
-          <p className="text-2xl font-black text-workspace-text tabular-nums tracking-tighter">0{tasks.filter(t => t.status === 'CONCLUÍDO').length}</p>
-        </div>
-
-        <div className="glow-item p-6 bg-workspace-surface border-l-4 border-l-amber-500/50">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.2em]">Aguardando</span>
-            <Clock className="text-amber-500/40" size={14} />
-          </div>
-          <p className="text-2xl font-black text-workspace-text tabular-nums tracking-tighter">0{tasks.filter(t => t.status === 'PENDENTE').length}</p>
-        </div>
+        ))}
       </div>
 
-      {/* Lista de Atividades - Refinada */}
-      <div className="flex-1 overflow-hidden flex flex-col space-y-4">
-        <div className="flex items-center justify-between px-4 pb-2 text-workspace-muted border-b border-workspace-border/40">
-          <span className="text-[8px] font-black uppercase tracking-[0.2em]">Registro de Atividade</span>
-          <span className="text-[8px] font-black uppercase tracking-[0.2em]">Métricas de Tempo</span>
+      {/* Main Activity Feed */}
+      <div className="flex-1 flex flex-col min-h-0 bg-workspace-surface border border-workspace-border rounded-sm shadow-2xl relative">
+        {/* Background Grid Layer */}
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+             style={{ backgroundImage: 'linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+
+        <div className="flex items-center justify-between px-8 h-12 border-b border-workspace-border shrink-0 bg-black/20 z-10">
+          <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.3em]">Registro Histórico / Tempo Real</span>
+          <div className="flex items-center gap-6">
+            <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.3em]">Status Operacional</span>
+            <span className="text-[8px] font-black text-workspace-muted uppercase tracking-[0.3em]">Métrica Crono</span>
+          </div>
         </div>
-        
-        <div className="flex-1 overflow-y-auto custom-scrollbar space-y-2 pr-2">
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-2 z-10">
           {tasks.map(task => (
             <div 
               key={task.id} 
               className={`
-                glow-item group bg-workspace-surface/50 p-4 flex items-center justify-between transition-all border-l-4
-                ${task.status === 'EM ANDAMENTO' ? 'border-l-sky-500' : 'border-l-transparent'}
-                hover:border-l-workspace-accent
+                group flex items-center justify-between p-6 mb-2 transition-all border-l-4
+                ${task.status === 'EM ANDAMENTO' ? 'border-l-sky-500 bg-sky-500/5' : 'border-l-transparent hover:bg-workspace-main/50'}
               `}
             >
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-8">
                 <button 
                   className={`
-                    w-9 h-9 flex items-center justify-center rounded-sm border transition-all
+                    w-11 h-11 flex items-center justify-center rounded-sm border transition-all
                     ${task.status === 'EM ANDAMENTO' 
-                      ? 'bg-sky-500/10 text-sky-500 border-sky-500/30' 
-                      : 'text-workspace-muted border-workspace-border hover:text-white hover:border-workspace-muted'
+                      ? 'bg-sky-500 text-black border-sky-500 shadow-[0_0_15px_rgba(56,189,248,0.3)]' 
+                      : 'text-workspace-muted border-workspace-border hover:border-workspace-muted'
                     }
                   `}
                 >
-                  {task.status === 'EM ANDAMENTO' ? <Square size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" />}
+                  {task.status === 'EM ANDAMENTO' ? <Square size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" />}
                 </button>
                 
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-black text-workspace-text uppercase tracking-tight">{task.title}</span>
-                    <span className={`text-[7px] font-black uppercase px-2 py-0.5 rounded-sm border tracking-widest ${getStatusStyle(task.status)}`}>
-                      {task.status}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-4">
+                    <span className="text-xs font-black text-workspace-text uppercase tracking-wider">{task.title}</span>
+                    <span className={`text-[7px] font-mono font-bold uppercase tracking-[0.2em] opacity-60 ${getStatusColor(task.status)}`}>
+                      // {task.status}
                     </span>
                   </div>
-                  <div className="flex items-center gap-5 text-[8px] text-workspace-muted font-bold uppercase tracking-[0.15em]">
-                    <span className="flex items-center gap-2 opacity-50"><Hash size={10} /> {task.category}</span>
-                    <span className="flex items-center gap-2">Prioridade: <b className={getPriorityColor(task.priority)}>{task.priority}</b></span>
+                  <div className="flex items-center gap-6 text-[8px] text-workspace-muted font-bold uppercase tracking-[0.1em]">
+                    <span className="flex items-center gap-2 border border-workspace-border px-2 py-0.5 rounded-sm">
+                      <Hash size={10} className="text-workspace-accent" /> {task.category}
+                    </span>
+                    <span>Prioridade_Nível: <b className="text-workspace-text">{task.priority}</b></span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-10">
+              <div className="flex items-center gap-12">
                 <div className="flex flex-col items-end">
-                   <span className="text-[14px] font-mono font-bold text-workspace-text tracking-tight">{task.timeSpent}</span>
-                   <span className="text-[7px] text-workspace-muted uppercase font-black tracking-widest opacity-30">Ciclo Ativo</span>
+                   <span className="text-lg font-mono font-bold text-workspace-text tracking-tighter">{task.timeSpent}</span>
+                   <span className="text-[7px] text-workspace-muted uppercase font-black tracking-widest opacity-30">Elapsed_Time</span>
                 </div>
                 
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                  <button className="p-2 text-workspace-muted hover:text-workspace-accent transition-colors" title="Finalizar"><Check size={14} /></button>
-                  <button className="p-2 text-workspace-muted hover:text-white transition-colors" title="Opções"><MoreVertical size={14} /></button>
+                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+                  <button className="p-2 border border-workspace-border text-workspace-muted hover:text-workspace-accent hover:border-workspace-accent transition-all rounded-sm"><Check size={14} /></button>
+                  <button className="p-2 border border-workspace-border text-workspace-muted hover:text-white hover:border-white transition-all rounded-sm"><MoreVertical size={14} /></button>
                 </div>
               </div>
             </div>

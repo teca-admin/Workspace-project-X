@@ -8,14 +8,13 @@ import Artifacts from './components/Artifacts';
 import Demands from './components/Demands';
 import WorkingNow from './components/WorkingNow';
 import { View } from './types';
-import { PanelLeft } from 'lucide-react';
+import { PanelLeft, ChevronRight, Monitor } from 'lucide-react';
 
 const App: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentView, setCurrentView] = useState<View>(View.HOME);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Theme Toggle Effect
   useEffect(() => {
     const html = document.documentElement;
     if (isDarkMode) {
@@ -29,25 +28,18 @@ const App: React.FC = () => {
   
   const renderContent = () => {
     switch (currentView) {
-      case View.HOME:
-        return <Home setCurrentView={setCurrentView} />;
-      case View.TOOLS:
-        return <Tools />;
-      case View.NOTES:
-        return <Notes />;
-      case View.ARTIFACTS:
-        return <Artifacts />;
-      case View.DEMANDS:
-        return <Demands />;
-      case View.WORKING_NOW:
-        return <WorkingNow />;
-      default:
-        return <Home setCurrentView={setCurrentView} />;
+      case View.HOME: return <Home setCurrentView={setCurrentView} />;
+      case View.TOOLS: return <Tools />;
+      case View.NOTES: return <Notes />;
+      case View.ARTIFACTS: return <Artifacts />;
+      case View.DEMANDS: return <Demands />;
+      case View.WORKING_NOW: return <WorkingNow />;
+      default: return <Home setCurrentView={setCurrentView} />;
     }
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-workspace-main text-workspace-text selection:bg-workspace-accent selection:text-white font-inter">
+    <div className="flex h-screen w-full overflow-hidden bg-workspace-main text-workspace-text selection:bg-workspace-accent selection:text-black font-inter">
       <Sidebar 
         isOpen={sidebarOpen} 
         toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
@@ -57,36 +49,36 @@ const App: React.FC = () => {
         toggleTheme={toggleTheme}
       />
       
-      <main className="flex-1 h-full overflow-hidden relative flex flex-col bg-workspace-main">
-        {/* Top Header Strip - Minimalist Standard */}
-        <header className="h-14 border-b border-workspace-border flex items-center justify-between px-6 bg-workspace-main z-10 shrink-0">
-          <div className="flex items-center gap-4">
+      <main className="flex-1 h-full overflow-hidden relative flex flex-col">
+        {/* Top Header Strip - Ultra Thin & Clean */}
+        <header className="h-14 border-b border-workspace-border flex items-center justify-between px-8 bg-workspace-main/60 backdrop-blur-md z-10 shrink-0">
+          <div className="flex items-center gap-6">
             {!sidebarOpen && (
               <button 
                 onClick={() => setSidebarOpen(true)}
-                className="p-1.5 text-workspace-muted hover:text-workspace-text hover:bg-workspace-surface rounded-md transition-colors"
-                title="Abrir Menu"
+                className="p-2 text-workspace-muted hover:text-workspace-text hover:bg-workspace-surface rounded-sm transition-all"
               >
-                <PanelLeft size={18} strokeWidth={1.5} />
+                <PanelLeft size={16} strokeWidth={1.5} />
               </button>
             )}
-            <div className="flex items-center gap-2 text-workspace-muted text-[10px] tracking-[0.2em] font-bold uppercase">
-               <span className="opacity-50">Workspace</span>
-               <span className="text-workspace-accent">/</span>
-               <span className="text-workspace-text">{currentView}</span>
+            <div className="flex items-center gap-3 text-workspace-muted text-[8px] tracking-[0.3em] font-black uppercase">
+               <span className="opacity-40">System_Root</span>
+               <ChevronRight size={10} className="opacity-20" />
+               <span className="text-workspace-accent border-b border-workspace-accent/30 pb-0.5">{currentView}</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-workspace-surface border border-workspace-border rounded-full">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[9px] text-workspace-muted font-bold tracking-[0.1em] uppercase">Status: Online</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-workspace-surface/50 border border-workspace-border rounded-sm">
+                <Monitor size={12} className="text-workspace-muted opacity-40" />
+                <span className="text-[8px] text-workspace-muted font-bold tracking-[0.2em] uppercase">Core: Stable</span>
+                <div className="w-1 h-1 rounded-full bg-workspace-accent ml-2 shadow-[0_0_8px_var(--accent)]" />
             </div>
           </div>
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden relative">
           {renderContent()}
         </div>
       </main>
