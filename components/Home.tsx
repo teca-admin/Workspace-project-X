@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, Briefcase, Zap, Wrench } from 'lucide-react';
+import { ArrowRight, CheckSquare, StickyNote, Wrench } from 'lucide-react';
 import { View } from '../types';
 
 interface HomeProps {
@@ -18,21 +18,21 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
     <div className="p-12 max-w-5xl mx-auto h-full flex flex-col justify-center animate-fade-in">
       
       <div className="mb-16">
-        <h1 className="text-3xl font-black text-white mb-2 uppercase tracking-[0.2em]">{greeting}, Operador.</h1>
+        <h1 className="text-3xl font-black text-workspace-text mb-2 uppercase tracking-[0.2em]">{greeting}, Operador.</h1>
         <p className="text-workspace-muted font-bold text-[10px] uppercase tracking-[0.1em] opacity-50">Terminal de comando centralizado</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        {/* Card 1 */}
+        {/* Card 1: Ferramentas */}
         <button 
           onClick={() => setCurrentView(View.TOOLS)}
           className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+          <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
             <Wrench className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Ferramentas</h3>
+          <h3 className="text-[10px] font-black text-workspace-text uppercase tracking-[0.2em] mb-3">Ferramentas</h3>
           <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
             Acesse rapidamente suas ferramentas integradas e utilitários.
           </p>
@@ -41,37 +41,37 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
           </div>
         </button>
 
-        {/* Card 2 */}
+        {/* Card 2: Demandas */}
         <button 
-          onClick={() => setCurrentView(View.PROJECTS)}
+          onClick={() => setCurrentView(View.DEMANDS)}
           className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
-            <Briefcase className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
+          <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+            <CheckSquare className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Projetos Ativos</h3>
+          <h3 className="text-[10px] font-black text-workspace-text uppercase tracking-[0.2em] mb-3">Fluxo de Demandas</h3>
           <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
-            Gerencie seus projetos em andamento e verifique o status.
+            Gerencie tarefas operacionais e prazos críticos do sistema.
           </p>
           <div className="mt-auto flex items-center text-[9px] font-black text-workspace-accent uppercase tracking-widest group-hover:gap-3 transition-all">
-            Ver Projetos <ArrowRight className="w-3 h-3 ml-2" />
+            Gerenciar <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         </button>
 
-        {/* Card 3 */}
+        {/* Card 3: Notas */}
         <button 
-          onClick={() => setCurrentView(View.DASHBOARD)}
+          onClick={() => setCurrentView(View.NOTES)}
           className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
-            <Zap className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
+          <div className="p-3 bg-workspace-main border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+            <StickyNote className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Painel</h3>
+          <h3 className="text-[10px] font-black text-workspace-text uppercase tracking-[0.2em] mb-3">Memórias</h3>
           <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
-            Visualize métricas e indicadores de desempenho operacional.
+            Registre informações rápidas e documentações dinâmicas.
           </p>
           <div className="mt-auto flex items-center text-[9px] font-black text-workspace-accent uppercase tracking-widest group-hover:gap-3 transition-all">
-            Visualizar <ArrowRight className="w-3 h-3 ml-2" />
+            Abrir Notas <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         </button>
       </div>

@@ -1,24 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import Tools from './components/Tools';
 import Notes from './components/Notes';
 import Artifacts from './components/Artifacts';
 import Demands from './components/Demands';
+import WorkingNow from './components/WorkingNow';
 import { View } from './types';
-import { Briefcase, CheckSquare, PanelLeft } from 'lucide-react';
-
-const PlaceholderView: React.FC<{ title: string; subtitle: string; icon: any }> = ({ title, subtitle, icon: Icon }) => (
-  <div className="flex flex-col items-center justify-center h-full text-workspace-muted animate-fade-in-quick">
-    <div className="p-4 border border-workspace-border rounded-lg mb-6 bg-workspace-surface">
-      <Icon size={32} className="text-workspace-accent stroke-[1]" />
-    </div>
-    <h2 className="text-sm font-semibold text-workspace-text tracking-[0.2em] mb-2 uppercase">{title}</h2>
-    <p className="text-[10px] font-medium tracking-[0.1em] uppercase opacity-40">{subtitle}</p>
-  </div>
-);
+import { PanelLeft } from 'lucide-react';
 
 const App: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -47,12 +37,10 @@ const App: React.FC = () => {
         return <Notes />;
       case View.ARTIFACTS:
         return <Artifacts />;
-      case View.PROJECTS:
-        return <PlaceholderView title="Projetos" subtitle="Em desenvolvimento" icon={Briefcase} />;
       case View.DEMANDS:
         return <Demands />;
-      case View.DASHBOARD:
-        return <Dashboard />;
+      case View.WORKING_NOW:
+        return <WorkingNow />;
       default:
         return <Home setCurrentView={setCurrentView} />;
     }

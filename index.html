@@ -11,13 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg-main: #ffffff;       
-        --bg-surface: #f4f4f5;    
-        --border-color: #e4e4e7;  
-        --accent: #10b981;        
-        --accent-glow: rgba(16, 185, 129, 0.15);
-        --text-main: #09090b;     
-        --text-muted: #71717a;    
+        --bg-main: #f8fafc;       /* Slate 50 - Suave */
+        --bg-surface: #ffffff;    
+        --border-color: #e2e8f0;  
+        --accent: #059669;        /* Esmeralda mais escuro para light */
+        --accent-glow: rgba(5, 150, 105, 0.08);
+        --text-main: #0f172a;     
+        --text-muted: #64748b;    
       }
 
       .dark {
@@ -41,6 +41,7 @@
         color: var(--text-main);
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
+        transition: background-color 0.3s ease;
       }
 
       /* Efeito Technical Glow Unificado */
@@ -48,6 +49,8 @@
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid var(--border-color);
         position: relative;
+        background-color: var(--bg-surface);
+        color: var(--text-main);
       }
 
       .glow-item:hover, .glow-button:hover {
@@ -56,10 +59,11 @@
         box-shadow: 0 0 12px -4px var(--accent);
       }
 
-      /* Para botões com fundo sólido da marca */
       .glow-button-solid {
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid transparent;
+        background-color: var(--accent);
+        color: #fff; /* Texto sempre branco em botão de ação */
       }
 
       .glow-button-solid:hover {
@@ -69,8 +73,9 @@
 
       /* Estilo Global para Inputs e Selects */
       input, select, textarea {
-        background-color: #000 !important;
+        background-color: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
+        color: var(--text-main) !important;
         border-radius: 4px !important;
         transition: all 0.2s ease !important;
       }
@@ -82,7 +87,7 @@
 
       ::-webkit-scrollbar { width: 3px; height: 3px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #333; }
+      ::-webkit-scrollbar-thumb { background: var(--border-color); }
       
       .view-transition {
         animation: fadeInQuick 0.15s ease-out;
@@ -106,15 +111,6 @@
                 text: 'var(--text-main)',
                 muted: 'var(--text-muted)'
               }
-            },
-            borderRadius: {
-              'none': '0',
-              'sm': '2px',
-              'DEFAULT': '4px',
-              'md': '4px',
-              'lg': '6px',
-              'xl': '8px',
-              'full': '4px',
             }
           }
         }

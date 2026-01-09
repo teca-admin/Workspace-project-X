@@ -2,13 +2,12 @@
 import React from 'react';
 
 export enum View {
-  HOME = 'HOME',         // HOME
-  TOOLS = 'TOOLS',       // FERRAMENTA
-  PROJECTS = 'PROJECTS', // PROJETOS
-  NOTES = 'NOTES',       // NOTAS
-  DEMANDS = 'DEMANDS',   // DEMANDAS
-  ARTIFACTS = 'ARTIFACTS', // ARTEFATOS (Antiga Library)
-  DASHBOARD = 'DASHBOARD' // PAINEL
+  HOME = 'HOME',         
+  TOOLS = 'TOOLS',       
+  NOTES = 'NOTES',       
+  DEMANDS = 'DEMANDS',   
+  ARTIFACTS = 'ARTIFACTS',
+  WORKING_NOW = 'WORKING_NOW'
 }
 
 export interface NavItem {
