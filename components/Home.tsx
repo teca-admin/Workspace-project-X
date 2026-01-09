@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ArrowRight, Briefcase, Zap, Wrench } from 'lucide-react';
 import { View } from '../types';
@@ -16,70 +17,67 @@ const Home: React.FC<HomeProps> = ({ setCurrentView }) => {
   return (
     <div className="p-12 max-w-5xl mx-auto h-full flex flex-col justify-center animate-fade-in">
       
-      {/* Hero Section */}
       <div className="mb-16">
-        <h1 className="text-4xl font-light text-workspace-text mb-2 tracking-tight">{greeting}, Usuário.</h1>
-        <p className="text-workspace-muted font-light text-lg">Seu workspace está pronto. O que vamos construir hoje?</p>
+        <h1 className="text-3xl font-black text-white mb-2 uppercase tracking-[0.2em]">{greeting}, Operador.</h1>
+        <p className="text-workspace-muted font-bold text-[10px] uppercase tracking-[0.1em] opacity-50">Terminal de comando centralizado</p>
       </div>
 
-      {/* Quick Actions Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        {/* Card 1: Ferramentas */}
+        {/* Card 1 */}
         <button 
           onClick={() => setCurrentView(View.TOOLS)}
-          className="group flex flex-col items-start p-6 bg-workspace-surface border border-workspace-border rounded-lg hover:border-workspace-accent hover:bg-workspace-accent-hover transition-all duration-300 shadow-sm"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-workspace-accent/10 rounded-md mb-4 group-hover:bg-workspace-accent/20 transition-colors">
-            <Wrench className="w-6 h-6 text-workspace-text stroke-[1.5]" />
+          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+            <Wrench className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-sm font-medium text-workspace-text uppercase tracking-wider mb-2">Ferramentas</h3>
-          <p className="text-xs text-workspace-muted font-light leading-relaxed mb-4 text-left">
+          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Ferramentas</h3>
+          <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
             Acesse rapidamente suas ferramentas integradas e utilitários.
           </p>
-          <div className="mt-auto flex items-center text-xs text-workspace-accent group-hover:text-workspace-text transition-colors font-medium">
-            Acessar <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-auto flex items-center text-[9px] font-black text-workspace-accent uppercase tracking-widest group-hover:gap-3 transition-all">
+            Acessar <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         </button>
 
         {/* Card 2 */}
         <button 
           onClick={() => setCurrentView(View.PROJECTS)}
-          className="group flex flex-col items-start p-6 bg-workspace-surface border border-workspace-border rounded-lg hover:border-workspace-accent hover:bg-workspace-accent-hover transition-all duration-300 shadow-sm"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-workspace-accent/10 rounded-md mb-4 group-hover:bg-workspace-accent/20 transition-colors">
-            <Briefcase className="w-6 h-6 text-workspace-text stroke-[1.5]" />
+          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+            <Briefcase className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-sm font-medium text-workspace-text uppercase tracking-wider mb-2">Projetos Ativos</h3>
-          <p className="text-xs text-workspace-muted font-light leading-relaxed mb-4 text-left">
+          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Projetos Ativos</h3>
+          <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
             Gerencie seus projetos em andamento e verifique o status.
           </p>
-          <div className="mt-auto flex items-center text-xs text-workspace-accent group-hover:text-workspace-text transition-colors font-medium">
-            Ver Projetos <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-auto flex items-center text-[9px] font-black text-workspace-accent uppercase tracking-widest group-hover:gap-3 transition-all">
+            Ver Projetos <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         </button>
 
         {/* Card 3 */}
         <button 
           onClick={() => setCurrentView(View.DASHBOARD)}
-          className="group flex flex-col items-start p-6 bg-workspace-surface border border-workspace-border rounded-lg hover:border-workspace-accent hover:bg-workspace-accent-hover transition-all duration-300 shadow-sm"
+          className="glow-item group flex flex-col items-start p-8 bg-workspace-surface rounded-md shadow-lg text-left"
         >
-          <div className="p-3 bg-workspace-accent/10 rounded-md mb-4 group-hover:bg-workspace-accent/20 transition-colors">
-            <Zap className="w-6 h-6 text-workspace-text stroke-[1.5]" />
+          <div className="p-3 bg-black border border-workspace-border rounded-sm mb-6 group-hover:border-workspace-accent transition-colors">
+            <Zap className="w-5 h-5 text-workspace-accent stroke-[1.5]" />
           </div>
-          <h3 className="text-sm font-medium text-workspace-text uppercase tracking-wider mb-2">Painel</h3>
-          <p className="text-xs text-workspace-muted font-light leading-relaxed mb-4 text-left">
-            Visualize métricas e indicadores de desempenho.
+          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3">Painel</h3>
+          <p className="text-[10px] text-workspace-muted font-medium leading-relaxed mb-6 opacity-60">
+            Visualize métricas e indicadores de desempenho operacional.
           </p>
-          <div className="mt-auto flex items-center text-xs text-workspace-accent group-hover:text-workspace-text transition-colors font-medium">
-            Visualizar <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-auto flex items-center text-[9px] font-black text-workspace-accent uppercase tracking-widest group-hover:gap-3 transition-all">
+            Visualizar <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         </button>
       </div>
 
-      {/* Status Strip */}
-      <div className="mt-16 border-t border-workspace-border pt-8 flex items-center justify-between text-xs text-workspace-muted font-light">
-         <span>V 1.0.1</span>
+      <div className="mt-16 border-t border-workspace-border pt-8 flex items-center justify-between text-[8px] text-workspace-muted font-black uppercase tracking-[0.3em]">
+         <span>V 1.2.0</span>
          <span>SISTEMA OPERACIONAL: ONLINE</span>
       </div>
     </div>

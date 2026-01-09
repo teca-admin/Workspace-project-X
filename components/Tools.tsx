@@ -1,28 +1,10 @@
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
-  Plus, 
-  ExternalLink, 
-  ArrowLeft, 
-  Globe, 
-  Loader2, 
-  AlertCircle, 
-  AlertTriangle,
-  RefreshCw, 
-  X, 
-  Pencil, 
-  Trash2, 
-  Save,
-  Folder,
-  FolderPlus,
-  CornerUpLeft,
-  Move,
-  ChevronRight,
-  Home
+  Plus, ArrowLeft, Globe, Loader2, X, Pencil, Trash2, Folder, FolderPlus, AlertTriangle
 } from 'lucide-react';
 import { Tool } from '../types';
 import { supabase } from '../lib/supabaseClient';
-
-// --- Mapeamentos e Helpers ---
 
 const toSupabase = (tool: Partial<Tool>) => ({
   titulo: tool.title,
@@ -47,24 +29,14 @@ const toFrontend = (data: any): Tool => ({
   updatedAt: data.atualizado_em ? new Date(data.atualizado_em) : undefined,
 });
 
-const formatError = (error: any) => {
-  return error?.message || JSON.stringify(error);
-};
-
 const Tools: React.FC = () => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [activeTool, setActiveTool] = useState<Tool | null>(null);
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
-  const [iframeKey, setIframeKey] = useState(0); 
-  const [showWarning, setShowWarning] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
   const [editingToolId, setEditingToolId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ title: '', url: '', description: '', isFolder: false });
-  
-  // Estado para o Modal de Exclusão Personalizado
   const [itemToDelete, setItemToDelete] = useState<{ id: string, title: string, isFolder: boolean } | null>(null);
 
   const fetchTools = async () => {
@@ -74,7 +46,7 @@ const Tools: React.FC = () => {
       if (error) throw error;
       if (data) setTools(data.map(toFrontend));
     } catch (e) {
-      console.error('[SUPABASE] Erro:', formatError(e));
+      console.error('[SUPABASE] Erro:', e);
     } finally {
       setIsLoading(false);
     }
@@ -110,34 +82,15 @@ const Tools: React.FC = () => {
     fetchTools();
   };
 
-  // Passo 1: Solicitar exclusão (Abre o modal)
-  const requestDelete = (e: React.MouseEvent, tool: Tool) => {
-    e.stopPropagation();
-    setItemToDelete({ id: tool.id, title: tool.title, isFolder: !!tool.isFolder });
-  };
-
-  // Passo 2: Confirmar exclusão (Executa no banco)
   const confirmDelete = async () => {
     if (!itemToDelete) return;
-    
     const { id } = itemToDelete;
-    
-    // UI Update Otimista: Fecha o modal imediatamente
     setItemToDelete(null);
-
     try {
-        const { error } = await supabase.from('ferramentas').delete().eq('id', id);
-        
-        if (error) {
-            console.error("🔴 [DEBUG] Erro Supabase:", error);
-            throw error;
-        }
-
+        await supabase.from('ferramentas').delete().eq('id', id);
         fetchTools();
     } catch (err) {
-        console.error("🔴 [DEBUG] Erro ao deletar:", err);
-        alert("Erro ao excluir: " + formatError(err));
-        fetchTools(); // Reverte em caso de erro
+        console.error("Erro ao deletar:", err);
     }
   };
 
@@ -146,69 +99,57 @@ const Tools: React.FC = () => {
 
   if (activeTool) {
     return (
-      <div className="flex flex-col h-full bg-workspace-main animate-fade-in relative">
-        <div className="h-14 border-b border-workspace-border flex items-center justify-between px-6 bg-workspace-surface shrink-0 z-20">
-          <button onClick={() => setActiveTool(null)} className="p-2 hover:bg-workspace-accent-hover rounded-full"><ArrowLeft className="w-5 h-5" /></button>
-          <div className="flex items-center gap-3"><h2 className="text-sm font-medium">{activeTool.title}</h2></div>
-          <a href={activeTool.url} target="_blank" rel="noreferrer" className="text-xs px-3 py-1.5 border border-workspace-border rounded-md hover:bg-workspace-accent-hover">Abrir no Navegador</a>
+      <div className="flex flex-col h-full bg-black animate-fade-in relative">
+        <div className="h-12 border-b border-workspace-border flex items-center justify-between px-6 bg-black shrink-0 z-20">
+          <button onClick={() => setActiveTool(null)} className="p-1 hover:text-workspace-accent transition-colors"><ArrowLeft size={16} /></button>
+          <h2 className="text-[10px] font-black uppercase tracking-widest text-white">{activeTool.title}</h2>
+          <a href={activeTool.url} target="_blank" rel="noreferrer" className="glow-button text-[9px] font-black px-3 py-1 border border-workspace-border rounded-sm uppercase transition-all">Link Externo</a>
         </div>
-        <iframe key={iframeKey} src={activeTool.url} className="w-full h-full border-none bg-white" title={activeTool.title} />
+        <iframe src={activeTool.url} className="w-full h-full border-none bg-white" title={activeTool.title} />
       </div>
     );
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto h-full flex flex-col animate-fade-in relative">
-      <div className="mb-6 flex justify-between items-end">
-        <div><h1 className="text-2xl font-light mb-2">Ferramentas Integradas</h1><p className="text-sm text-workspace-muted">Gerencie seus utilitários externos.</p></div>
+    <div className="p-10 max-w-7xl mx-auto h-full flex flex-col animate-fade-in">
+      <div className="mb-8 flex justify-between items-end">
+        <div>
+          <h1 className="text-xl font-black text-white uppercase tracking-[0.2em]">Recursos Externos</h1>
+          <p className="text-[9px] text-workspace-muted font-bold uppercase tracking-[0.1em] mt-1 opacity-40">Utilitários e integrações homologadas</p>
+        </div>
         <div className="flex gap-2">
-          <button onClick={() => handleOpenModal(undefined, true)} className="px-4 py-2 border border-workspace-border rounded-md text-xs font-medium hover:bg-workspace-accent-hover flex items-center gap-2"><FolderPlus className="w-4 h-4" /> NOVA PASTA</button>
-          <button onClick={() => handleOpenModal(undefined, false)} className="px-4 py-2 bg-workspace-accent text-white rounded-md text-xs font-medium hover:opacity-90 flex items-center gap-2"><Plus className="w-4 h-4" /> NOVA FERRAMENTA</button>
+          <button onClick={() => handleOpenModal(undefined, true)} className="glow-button px-4 py-2 border border-workspace-border rounded-sm text-[9px] font-black uppercase tracking-widest transition-all"><FolderPlus size={14} className="inline mr-2" /> PASTA</button>
+          <button onClick={() => handleOpenModal(undefined, false)} className="glow-button-solid px-4 py-2 bg-workspace-accent text-black rounded-sm text-[9px] font-black uppercase tracking-widest transition-all shadow-lg"><Plus size={14} className="inline mr-2" /> RECURSO</button>
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex-1 overflow-y-auto custom-scrollbar pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {visibleTools.map((tool) => (
             <div 
               key={tool.id} 
               onClick={() => tool.isFolder ? setCurrentFolderId(tool.id) : setActiveTool(tool)} 
-              className="group relative bg-workspace-surface border rounded-lg p-5 cursor-pointer transition-all duration-300 flex items-start gap-4 select-none border-l-4 border-l-workspace-accent border-workspace-border hover:bg-workspace-accent-hover"
+              className="glow-item group relative bg-workspace-surface p-6 rounded-sm cursor-pointer border-l-4 border-l-workspace-accent/50 transition-all"
             >
-              <div className="w-10 h-10 rounded-lg border border-workspace-border flex items-center justify-center shrink-0 transition-colors bg-workspace-surface group-hover:bg-workspace-surface/50 shadow-none">
-                {tool.isFolder ? (
-                  <Folder className="w-5 h-5 text-workspace-accent fill-workspace-accent/5" />
-                ) : (
-                  <div className="relative flex items-center justify-center">
-                    <img src={getFavicon(tool.url)} alt="" className="w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity z-10" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                    <Globe className="w-4 h-4 text-workspace-accent absolute opacity-20" />
-                  </div>
-                )}
-              </div>
-              
-              <div className="flex-1 min-w-0 pr-14"> 
-                <h3 className="text-sm font-bold truncate mb-1">{tool.title}</h3>
-                <p className="text-[10px] text-workspace-muted line-clamp-2 leading-relaxed font-medium uppercase tracking-tighter opacity-70">
-                  {tool.isFolder ? `${tools.filter(t => t.parentId === tool.id).length} itens` : (tool.description || "Sem descrição.")}
-                </p>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 border border-workspace-border bg-black flex items-center justify-center shrink-0 group-hover:border-workspace-accent transition-colors">
+                  {tool.isFolder ? (
+                    <Folder className="w-5 h-5 text-workspace-accent" />
+                  ) : (
+                    <img src={getFavicon(tool.url)} alt="" className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cpath d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'%3E%3C/path%3E%3C/svg%3E"; }} />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0 pr-12"> 
+                  <h3 className="text-[11px] font-bold text-white uppercase tracking-tight mb-1 truncate">{tool.title}</h3>
+                  <p className="text-[9px] text-workspace-muted font-medium line-clamp-2 uppercase leading-relaxed opacity-60">
+                    {tool.isFolder ? `${tools.filter(t => t.parentId === tool.id).length} itens` : (tool.description || "Sem memorial descritivo.")}
+                  </p>
+                </div>
               </div>
 
-              <div className="absolute top-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-50">
-                <button 
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    handleOpenModal(tool); 
-                  }} 
-                  className="p-1.5 text-workspace-muted hover:text-workspace-text hover:bg-workspace-main rounded-md transition-colors"
-                >
-                  <Pencil className="w-3.5 h-3.5" />
-                </button>
-                <button 
-                  onClick={(e) => requestDelete(e, tool)} 
-                  className="p-1.5 text-workspace-muted hover:text-red-500 hover:bg-workspace-main rounded-md transition-colors"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
+              <div className="absolute top-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button onClick={(e) => { e.stopPropagation(); handleOpenModal(tool); }} className="p-1.5 text-workspace-muted hover:text-workspace-accent"><Pencil size={12} /></button>
+                <button onClick={(e) => { e.stopPropagation(); setItemToDelete({ id: tool.id, title: tool.title, isFolder: !!tool.isFolder }); }} className="p-1.5 text-workspace-muted hover:text-red-500"><Trash2 size={12} /></button>
               </div>
             </div>
           ))}
@@ -216,54 +157,43 @@ const Tools: React.FC = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="bg-workspace-surface w-full max-w-md border border-workspace-border rounded-lg p-6 relative m-4 border-l-4 border-l-workspace-accent">
-            <h2 className="text-lg font-light mb-6 uppercase tracking-widest">{editingToolId ? 'Editar' : 'Novo'}</h2>
-            <div className="space-y-4">
-              <input type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full bg-workspace-main border border-workspace-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-workspace-accent" placeholder="Título" />
-              {!formData.isFolder && <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} className="w-full bg-workspace-main border border-workspace-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-workspace-accent" placeholder="URL" />}
-              <textarea 
-                value={formData.description} 
-                onChange={(e) => setFormData({...formData, description: e.target.value})} 
-                className="w-full bg-workspace-main border border-workspace-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-workspace-accent min-h-[80px] resize-none" 
-                placeholder="Descrição (Opcional)" 
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in">
+          <div className="bg-workspace-surface w-full max-w-md border border-workspace-border rounded-sm shadow-2xl p-8 border-l-4 border-l-workspace-accent">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-workspace-accent mb-8">{editingToolId ? 'Modificar Registro' : 'Novo Recurso'}</h2>
+            <div className="space-y-6">
+              <div className="space-y-1.5">
+                <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Identificação</label>
+                <input type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} className="w-full" placeholder="Ex: Monitoramento AWS" />
+              </div>
+              {!formData.isFolder && (
+                <div className="space-y-1.5">
+                  <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Endereço (URL)</label>
+                  <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} className="w-full" placeholder="https://..." />
+                </div>
+              )}
+              <div className="space-y-1.5">
+                <label className="text-[8px] font-black uppercase text-workspace-muted tracking-widest">Memorial Descritivo</label>
+                <textarea value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full min-h-[80px] resize-none" placeholder="Opcional" />
+              </div>
             </div>
-            <div className="mt-8 flex justify-end gap-3">
-              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-xs font-medium">CANCELAR</button>
-              <button onClick={handleSave} className="px-6 py-2 bg-workspace-accent text-white text-xs font-medium rounded-md hover:opacity-90">SALVAR</button>
+            <div className="mt-10 flex justify-end gap-3">
+              <button onClick={() => setIsModalOpen(false)} className="text-[9px] font-black uppercase text-workspace-muted hover:text-white">Abortar</button>
+              <button onClick={handleSave} className="glow-button-solid px-8 py-2.5 bg-workspace-accent text-black text-[9px] font-black uppercase tracking-widest rounded-sm">Validar</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal Confirmação de Exclusão */}
       {itemToDelete && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in-quick">
-            <div className="bg-workspace-surface border border-workspace-border rounded-xl p-6 max-w-sm w-full shadow-2xl border-l-4 border-l-red-500">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-lg p-4 animate-fade-in">
+            <div className="bg-workspace-surface border border-workspace-border rounded-sm p-8 max-w-sm w-full shadow-2xl border-l-4 border-l-red-600">
                 <div className="flex flex-col items-center text-center">
-                    <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mb-4 text-red-500">
-                        <AlertTriangle className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-sm font-bold text-workspace-text mb-2">Excluir {itemToDelete.isFolder ? 'Pasta' : 'Ferramenta'}?</h3>
-                    <p className="text-xs text-workspace-muted mb-6 leading-relaxed">
-                        Tem certeza que deseja excluir <strong>"{itemToDelete.title}"</strong>? 
-                        {itemToDelete.isFolder && <span className="block mt-2 text-red-400">Isso também pode ocultar itens dentro desta pasta.</span>}
-                        <span className="block mt-2">Esta ação não pode ser desfeita.</span>
-                    </p>
-                    <div className="flex gap-3 w-full">
-                        <button 
-                            onClick={() => setItemToDelete(null)}
-                            className="flex-1 px-4 py-2 bg-workspace-main border border-workspace-border text-workspace-text text-xs font-bold rounded-lg hover:bg-workspace-border/50 transition-colors"
-                        >
-                            CANCELAR
-                        </button>
-                        <button 
-                            onClick={confirmDelete}
-                            className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors"
-                        >
-                            EXCLUIR
-                        </button>
+                    <div className="w-12 h-12 bg-red-600/10 rounded-full flex items-center justify-center mb-6 text-red-600"><AlertTriangle size={24} /></div>
+                    <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-4">Eliminar {itemToDelete.isFolder ? 'Diretório' : 'Recurso'}</h3>
+                    <p className="text-[10px] text-workspace-muted font-medium mb-8 uppercase leading-relaxed opacity-60">Confirma a exclusão de "{itemToDelete.title}"? Esta operação é irreversível.</p>
+                    <div className="flex gap-4 w-full">
+                        <button onClick={() => setItemToDelete(null)} className="flex-1 text-[9px] font-black uppercase text-workspace-muted hover:text-white">Abortar</button>
+                        <button onClick={confirmDelete} className="glow-button-solid flex-1 py-3 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest rounded-sm">Confirmar Exclusão</button>
                     </div>
                 </div>
             </div>
